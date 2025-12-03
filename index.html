@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visitor Management System - Login</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Background Image */
+    .bg-login {
+      background-image: url('/project/Minor_02/Minor_02/project/images.jpeg');  
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* @keyframes fadeInSmooth {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInSmooth 0.8s ease-out; }
+
+    .hover-glow:hover {
+      box-shadow: 0 0 18px rgba(255,255,255,0.4);
+      transform: translateY(-2px);
+      transition: 0.25s ease-in-out;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    } */
+  </style>
+</head>
+
+<body class=" bg-login  min-h-screen  pt-20 " >
+
+ <!-- NAVBAR -->
+<nav class="w-full bg-[#234997] text-white px-5 py-4 fixed top-0 left-0 right-0 
+            flex justify-between items-center shadow-lg z-50">
+
+  <h1 class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-wide">
+   <a href="index.html" class="hover:text-gray-300">Visitor Management System</a> 
+  </h1>
+
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex gap-6 text-lg font-medium">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+
+  <!-- Mobile Button -->
+  <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="hidden bg-[#234997] text-white mx-4 mt-[75px] p-5 rounded-xl md:hidden text-center shadow-lg">
+
+  <ul class="flex flex-col gap-4 text-lg">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+</div>
+
+
+  
+
+  <!-- LOGIN BOX (Now perfectly centered) -->
+  <div class="flex items-center justify-center min-h-[70vh] px-5 fade-in">
+
+    <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-sm text-center hover-glow">
+
+      <h2 class="text-2xl font-bold mb-6 tracking-wide text-[#234997]">Welcome Back</h2>
+
+      <select id="role"
+        class="w-full mb-4 p-3 border border-gray-300 rounded-lg 
+               focus:ring-2 focus:ring-blue-500 bg-gray-50">
+        <option value="">Select Login Type</option>
+        <option value="admin">Admin</option>
+        <option value="security">Security / Reception</option>
+        <option value="visitor">Visitor</option>
+        <option value="registrar">Registrar</option>
+      </select>
+
+      <input type="text" id="username" placeholder="Enter Username"
+        class="w-full mb-4 p-3 border rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500" />
+
+      <input type="password" id="password" placeholder="Enter Password"
+        class="w-full mb-6 p-3 border rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500" />
+
+      <button onclick="login()"
+        class="w-full bg-[#234997] hover:bg-blue-800 text-white font-semibold py-3 rounded-lg">
+        Login
+      </button>
+
+      <p id="msg" class="text-center mt-4 text-red-600 font-medium"></p>
+
+    </div>
+  </div>
+
+  <!-- TOGGLE MENU SCRIPT -->
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    }
+  </script>
+
+  <!-- MARQUEE CLOCK SCRIPT -->
+  <script>
+    function updateMarqueeClock() {
+      const now = new Date();
+      let hrs = now.getHours().toString().padStart(2, "0");
+      let mins = now.getMinutes().toString().padStart(2, "0");
+      let secs = now.getSeconds().toString().padStart(2, "0");
+
+      let timeString = `  Current Time: ${hrs}:${mins}:${secs}   |   Welcome to Visitor Management System`;
+
+      document.getElementById("marqueeClock").innerText = timeString;
+    }
+
+    setInterval(updateMarqueeClock, 1000);
+    updateMarqueeClock();
+  </script>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

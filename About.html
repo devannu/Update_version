@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Visitor Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 pt-24 px-3 sm:px-4">
+
+ <!-- NAVBAR -->
+<nav class="w-full bg-[#234997] text-white px-5 py-4 fixed top-0 left-0 right-0 
+            flex justify-between items-center shadow-lg z-50">
+
+  <h1 class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-wide">
+   <a href="index.html" class="hover:text-gray-300">Visitor Management System</a> 
+  </h1>
+
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex gap-6 text-lg font-medium">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+
+  <!-- Mobile Button -->
+  <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="hidden bg-[#234997] text-white mx-4 mt-[75px] p-5 rounded-xl md:hidden text-center shadow-lg">
+
+  <ul class="flex flex-col gap-4 text-lg">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+</div>
+
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    }
+  </script>
+
+  <!-- HEADER -->
+  <header class="bg-[#234997] text-white py-14 text-center shadow-md mt-4 rounded-lg mx-2">
+    <h1 class="text-3xl sm:text-4xl font-bold">About Us</h1>
+    <p class="text-md sm:text-lg mt-3">Visitor Management System Project Team</p>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-5xl mx-auto bg-white p-6 sm:p-8 mt-10 rounded-xl shadow-lg">
+
+    <!-- INTRO -->
+    <section>
+      <h2 class="text-2xl font-bold border-l-4 border-[#234997] pl-3 mb-3">Who We Are</h2>
+      <p class="text-gray-700 leading-relaxed text-sm sm:text-base">
+        Welcome to our Visitor Management System Project! We are a team of three passionate students working together to create a modern, secure, and efficient digital solution for managing visitor entries and exits. Our goal is to replace traditional manual registers with a faster, smarter, and more accurate system that enhances both security and convenience. This project represents not only our technical learning but also our dedication, teamwork, and desire to build something truly useful for real-world applications.
+      </p>
+    </section>
+
+    <!-- HOD SECTION (FIRST) -->
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold border-l-4 border-[#234997] pl-3">Head of Department</h2>
+
+      <div class="bg-blue-50 p-6 rounded-xl mt-5 text-center border">
+        <img src="/project/Minor_02/Minor_02/image/ChatGPT Image Dec 2, 2025, 10_32_17 PM.png"
+             class="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto border-4 border-[#234997] object-cover shadow">
+        <h3 class="text-xl font-semibold mt-4">Mr. Ashutosh Rajan</h3>
+        <p class="font-semibold text-gray-600">Head of Department – B.Tech CSE</p>
+
+        <p class="text-gray-700 mt-3 text-sm sm:text-base">
+          A visionary academic leader who constantly motivates students to innovate and work on real-world
+          software development projects. His guidance and support inspired us to build this system with
+          dedication and confidence.
+        </p>
+      </div>
+    </section>
+
+    <!-- MENTOR SECTION -->
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold border-l-4 border-[#234997] pl-3">Our Mentor</h2>
+
+      <div class="bg-blue-50 p-6 rounded-xl mt-5 text-center border">
+        <img src="/project/Minor_02/Minor_02/image/Tauqeer A.png"
+             class="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto border-4 border-[#234997] object-cover shadow">
+        <h3 class="text-xl font-semibold mt-4">Mr. Tauqeer Akhtar</h3>
+        <p class="text-gray-700 mt-3 text-sm sm:text-base">
+          We express our sincere gratitude to Mr.Tauqeer Akhtar, our respected mentor, for his continuous support, guidance, and encouragement throughout the development of this project. His expert advice, valuable feedback, and positive motivation helped us overcome challenges and shaped this project into a successful outcome. This project would not have been possible without his mentorship and trust in our abilities.
+        </p>
+      </div>
+    </section>
+
+    <!-- TEAM MEMBERS -->
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold border-l-4 border-[#234997] pl-3 mb-6">Our Team Members</h2>
+
+      <!-- Member 1 -->
+      <div class="flex flex-col md:flex-row items-center gap-6 p-5 bg-blue-50 rounded-xl mb-6 border">
+        <img src="/project/Minor_02/Minor_02/image/Ashutosdh raj.png"
+             class="w-32 h-40 rounded-lg object-cover shadow">
+        <div>
+          <h3 class="text-xl font-semibold">Radhe Shyam</h3>
+          <p class="font-semibold text-gray-600">Team Member | Developer</p>
+          <p class="text-gray-700 mt-2 text-sm sm:text-base">
+            Radhe Shyam is a focused and dedicated developer who has contributed significantly to the designing and development phase of the system. With a strong interest in creating practical digital solutions, he played a key role in implementing the core features and ensuring a smooth user experience.
+          </p>
+        </div>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="flex flex-col md:flex-row items-center gap-6 p-5 bg-blue-50 rounded-xl mb-6 border">
+        <img src="/project/Minor_02/Minor_02/image/anu_image.jpg"
+             class="w-32 h-40 rounded-lg object-cover shadow">
+        <div>
+          <h3 class="text-xl font-semibold">Annu Kumari</h3>
+          <p class="font-semibold text-gray-600">Team Member | Designer | Developer</p>
+          <p class="text-gray-700 mt-2 text-sm sm:text-base">
+            Annu Kumari is an actively worked on the UI/UX, created system workflows, and helped in integrating various modules. Their creativity and problem-solving approach made the project more efficient and user-friendly.
+          </p>
+        </div>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="flex flex-col md:flex-row items-center gap-6 p-5 bg-blue-50 rounded-xl mb-6 border">
+        <img src="/project/Minor_02/Minor_02/image/RS.png"
+             class="w-32 h-40 rounded-lg object-cover shadow">
+        <div>
+          <h3 class="text-xl font-semibold">Ashutosh Raj</h3>
+          <p class="font-semibold text-gray-600">Team Member | Research & Testing | Developer</p>
+          <p class="text-gray-700 mt-2 text-sm sm:text-base">
+            Ashutosh Raj is contributed through research, documentation, and system testing. Their efforts ensured that the final output is accurate, bug-free, and reliable. They played a key role in refining and validating the system.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="mt-10 bg-blue-100 p-5 rounded-xl">
+      <h2 class="text-2xl font-bold border-l-4 border-[#234997] pl-3 mb-3">Contact Us</h2>
+      <p><strong>Email:</strong>
+        <a href="mailto:vmsprojectby.tripod@gmail.com" class="text-blue-600">
+          vmsprojectby.tripod@gmail.com
+        </a>
+      </p>
+
+      <p class="mt-2"><strong>Location:</strong> Dr. C.V. Raman University, Bhagwanpur (Vaishali)</p>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-10 bg-[#234997] text-white py-6 text-center rounded-t-xl shadow-lg">
+    <p class="text-sm sm:text-base">© 2025 Visitor Management System Project Team</p>
+  </footer>
+
+</body>
+</html>

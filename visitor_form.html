@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self Visitor Entry</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  body { padding-top: 60px; }
+</style>
+
+</head>
+
+<body class="bg-blue-100 min-h-screen">
+
+<!-- NAVBAR -->
+<nav class="w-full bg-[#234997] text-white px-5 py-4 fixed top-0 left-0 right-0 
+            flex justify-between items-center shadow-lg z-50">
+
+ <h1 class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-wide">
+   <a href="index.html" class="hover:text-gray-300">Visitor Management System</a> 
+  </h1>
+
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex gap-6 text-lg font-medium">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+
+  <!-- Mobile Button -->
+  <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="hidden bg-[#234997] text-white mx-4 mt-[75px] p-5 rounded-xl md:hidden text-center shadow-lg">
+
+  <ul class="flex flex-col gap-4 text-lg">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+</div>
+
+<script>
+function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("hidden");
+}
+</script>
+
+<!-- MAIN FORM -->
+<div class="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-3xl mx-auto mt-10">
+
+  <h1 class="text-2xl sm:text-3xl font-bold text-center text-[#234997] mb-4">
+      Self Visitor Registration
+  </h1>
+
+  <p class="text-center text-gray-600 mb-6 text-sm sm:text-base">Please enter your details</p>
+
+  <!-- FORM -->
+  <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-xl">
+
+    <h2 class="text-lg sm:text-xl font-semibold mb-4 text-[#234997]">
+      New Visitor Entry
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <div>
+        <label class="font-semibold text-gray-700 text-sm">Visitor Name</label>
+        <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+               type="text" id="vname" placeholder="Enter full name">
+      </div>
+
+      <div>
+        <label class="font-semibold text-gray-700 text-sm">Phone Number</label>
+        <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+               type="text" id="vphone" placeholder="Enter 10-digit number"
+               maxlength="10"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+      </div>
+
+      <div>
+        <label class="font-semibold text-gray-700 text-sm">Visit Date</label>
+        <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+               type="date" id="vdate">
+      </div>
+
+      <div>
+        <label class="font-semibold text-gray-700 text-sm">To Meet</label>
+        <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+               type="text" id="vmeet" placeholder="e.g., HOD CSE">
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="font-semibold text-gray-700 text-sm">Purpose</label>
+        <textarea class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+                  id="vpurpose" placeholder="Reason for visit"></textarea>
+      </div>
+
+    </div>
+
+    <button onclick="handleAddVisitor()"
+        class="mt-6 bg-[#234997] hover:bg-blue-800 text-white w-full p-3 rounded-xl 
+               text-lg font-semibold">
+      Submit & Generate My QR
+    </button>
+
+    <p id="msg" class="text-center font-semibold mt-3"></p>
+
+  </div>
+</div>
+
+<!-- QR BOX -->
+<div class="bg-white p-6 rounded-xl shadow-xl mt-10 max-w-sm mx-auto text-center">
+  <h3 class="text-lg font-semibold text-blue-800">Your QR Code</h3>
+  <canvas id="qrCanvas" class="mx-auto my-4 w-full max-w-[250px]"></canvas>
+
+  <button onclick="downloadQR()"
+      class="bg-[#234997] hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+      Download QR
+  </button>
+</div>
+ <footer class="mt-10 bg-[#234997] text-white py-6 text-center rounded-t-xl shadow-lg">
+    <p>© 2025 Visitor Management System Project Team</p>
+  </footer>
+
+
+<script>
+// -------------------- AUTO DATE: TODAY ONLY ---------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("vdate");
+
+    // Get today's real date
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, "0");
+    let day = String(today.getDate()).padStart(2, "0");
+
+    let isoDate = `${year}-${month}-${day}`;
+
+    // Set date + lock it
+    dateInput.value = isoDate;
+    dateInput.min = isoDate;
+    dateInput.max = isoDate;
+
+    // Prevent manual typing
+    dateInput.setAttribute("readonly", true);
+});
+// -------------------- FIRST LETTER AUTO CAPITAL ---------------------
+document.getElementById("vname").addEventListener("input", function () {
+    let v = this.value;
+    if (v.length > 0) this.value = v.charAt(0).toUpperCase() + v.slice(1);
+});
+
+document.getElementById("vmeet").addEventListener("input", function () {
+    let v = this.value;
+    if (v.length > 0) this.value = v.charAt(0).toUpperCase() + v.slice(1);
+});
+</script>
+
+<!-- QR Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

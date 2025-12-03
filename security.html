@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .fade {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="bg-[#e8efff] min-h-screen pt-24 px-3 sm:px-4">
+
+<!-- NAVBAR -->
+<nav class="w-full bg-[#234997] text-white px-5 py-4 fixed top-0 left-0 right-0 
+            flex justify-between items-center shadow-lg z-50">
+
+  <h1 class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-wide">
+   <a href="index.html" class="hover:text-gray-300">Visitor Management System</a> 
+  </h1>
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex gap-6 text-lg font-medium">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="QR.html" class="hover:text-gray-300">QR Scan</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+
+  <!-- Mobile Button -->
+  <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="hidden bg-[#234997] text-white mx-4 mt-[75px] p-5 rounded-xl md:hidden text-center shadow-lg">
+
+  <ul class="flex flex-col gap-4 text-lg">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="QR.html" class="hover:text-gray-300">QR Scan</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+</div>
+
+<script>
+function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("hidden");
+}
+</script>
+
+<!-- HEADER -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center 
+              bg-[#234997] text-white p-5 sm:p-6 rounded-xl shadow-lg mb-8 mt-6 gap-4 fade">
+
+    <div class="space-y-1">
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">Security / Reception Panel</h1>
+        <p class="text-gray-200 text-sm sm:text-base">Register new visitors and manage entries</p>
+    </div>
+
+    <div class="flex items-center gap-4 text-sm sm:text-base">
+        <span>Logged in as: <strong>Security</strong></span>
+        <button onclick="logout()" 
+                class="bg-red-600 hover:bg-red-700 px-4 py-2 sm:px-5 sm:py-2 rounded-lg transition shadow-md">
+            Logout
+        </button>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 fade">
+
+   <!-- FORM SECTION -->
+<div class="bg-white p-5 sm:p-6 rounded-2xl shadow-xl">
+    <h2 class="text-xl font-semibold mb-4 text-[#234997]">New Visitor Entry</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+            <label class="font-semibold text-gray-700 text-sm">Visitor Name</label>
+            <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500" 
+                   type="text" id="vname" placeholder="Enter full name">
+        </div>
+
+        <div>
+            <label class="font-semibold text-gray-700 text-sm">Phone Number</label>
+            <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500" 
+                   type="text" id="vphone" maxlength="10"
+                   placeholder="Enter 10 digit mobile number"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+
+        <div>
+            <label class="font-semibold text-gray-700 text-sm">Visit Date</label>
+            <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500" 
+                   type="date" id="vdate">
+        </div>
+
+        <div>
+            <label class="font-semibold text-gray-700 text-sm">To Meet</label>
+            <input class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500" 
+                   type="text" id="vmeet" placeholder="e.g., HOD CSE">
+        </div>
+
+        <div class="md:col-span-2">
+            <label class="font-semibold text-gray-700 text-sm">Purpose</label>
+            <textarea class="w-full p-2 rounded-lg border focus:ring-2 focus:ring-blue-500"
+                      id="vpurpose" placeholder="Reason for visit"></textarea>
+        </div>
+
+    </div>
+
+    <button onclick="handleAddVisitor()" 
+            class="mt-6 bg-[#234997] hover:bg-[#1b3b7e] text-white px-5 py-3 rounded-lg 
+                   w-full transition shadow-md">
+        Save Visitor Entry
+    </button>
+
+    <p id="sec-msg" class="text-green-600 mt-3"></p>
+</div>
+
+    <!-- VISITOR RECORDS -->
+    <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-xl">
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+            <h2 class="text-xl font-semibold text-[#234997]">Visitor Records</h2>
+
+            <div class="flex gap-2">
+                <button onclick="renderVisitorsTable('visitor-table-body')" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+                    View All
+                </button>
+
+                <button onclick="clearVisitors()" 
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow">
+                    Clear All
+                </button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border">
+            <table class="min-w-full text-center text-sm">
+                <thead class="bg-[#234997] text-white">
+                    <tr>
+                        <th class="p-3 border">Serial No.</th>
+                        <th class="p-3 border">Name</th>
+                        <th class="p-3 border">Contact</th>
+                        <th class="p-3 border">Purpose</th>
+                        <th class="p-3 border">To Meet</th>
+                        <th class="p-3 border">Date</th>
+                        <th class="p-3 border">In</th>
+                        <th class="p-3 border">Out</th>
+                        <th class="p-3 border">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="visitor-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- QR GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 fade">
+
+    <!-- Generated QR -->
+    <div class="bg-white p-6 rounded-2xl shadow-xl text-center">
+        <h3 class="text-lg font-bold text-[#234997]">Generated QR Code</h3>
+        <canvas id="qrCanvas" class="mx-auto my-4 w-full max-w-[250px]"></canvas>
+
+        <button onclick="downloadQR()" 
+                class="bg-[#234997] hover:bg-[#1b3b7e] text-white px-5 py-2 rounded-lg shadow">
+            Download QR
+        </button>
+    </div>
+
+    <!-- QR Scanner -->
+    <div class="bg-white p-6 rounded-2xl shadow-xl text-center">
+        <h3 class="text-lg font-bold text-[#234997]">Scan Visitor QR Code</h3>
+
+        <div id="reader" class="mx-auto my-4 w-full max-w-[280px]"></div>
+
+        <button onclick="startScanner()" 
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+            Start Scanner
+        </button>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-20 bg-[#234997] text-white py-6 text-center rounded-t-2xl shadow-lg">
+    <p class="text-sm sm:text-base">
+      © 2025 Visitor Management System | All Rights Reserved
+    </p>
+</footer>
+
+<!-- -------------------------- SCRIPTS -------------------------------- -->
+
+<script>
+// -------------------- AUTO DATE: TODAY ONLY ---------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("vdate");
+
+    // Get today's real date
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, "0");
+    let day = String(today.getDate()).padStart(2, "0");
+
+    let isoDate = `${year}-${month}-${day}`;
+
+    // Set date + lock it
+    dateInput.value = isoDate;
+    dateInput.min = isoDate;
+    dateInput.max = isoDate;
+
+    // Prevent manual typing
+    dateInput.setAttribute("readonly", true);
+});
+// -------------------- FIRST LETTER AUTO CAPITAL ---------------------
+document.getElementById("vname").addEventListener("input", function () {
+    let v = this.value;
+    if (v.length > 0) this.value = v.charAt(0).toUpperCase() + v.slice(1);
+});
+
+document.getElementById("vmeet").addEventListener("input", function () {
+    let v = this.value;
+    if (v.length > 0) this.value = v.charAt(0).toUpperCase() + v.slice(1);
+});
+
+
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

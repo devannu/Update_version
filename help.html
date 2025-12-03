@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help & Support - Visitor Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .fade {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .float {
+      animation: floatUp 3s infinite ease-in-out;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      transition: 0.3s;
+    }
+
+    .glass:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+    }
+
+    body {
+      background: linear-gradient(135deg, #eaf1ff 0%, #f4f7ff 100%);
+    }
+  </style>
+</head>
+
+<body class="pt-24 px-3 sm:px-4">
+
+  <!-- NAVBAR -->
+<nav class="w-full bg-[#234997] text-white px-5 py-4 fixed top-0 left-0 right-0 
+            flex justify-between items-center shadow-lg z-50">
+
+ <h1 class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-wide">
+   <a href="index.html" class="hover:text-gray-300">Visitor Management System</a> 
+  </h1>
+
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex gap-6 text-lg font-medium">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+
+  <!-- Mobile Button -->
+  <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     class="hidden bg-[#234997] text-white mx-4 mt-[75px] p-5 rounded-xl md:hidden text-center shadow-lg">
+
+  <ul class="flex flex-col gap-4 text-lg">
+    <li><a href="index.html" class="hover:text-gray-300">Home</a></li>
+    <li><a href="visitor_form.html" class="hover:text-gray-300">New Visitor</a></li>
+    <li><a href="About.html" class="hover:text-gray-300">About Us</a></li>
+    <li><a href="help.html" class="hover:text-gray-300">Help</a></li>
+  </ul>
+</div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    }
+  </script>
+
+  <!-- HEADER TEXT -->
+  <div class="max-w-4xl mx-auto text-center fade mt-6">
+    <h2 class="text-3xl sm:text-4xl font-black text-blue-900 tracking-wide">
+      Help & Support
+    </h2>
+    <p class="text-gray-700 mt-3 text-base sm:text-lg">
+      Your guide to using the Visitor Management System.
+    </p>
+  </div>
+
+  <!-- HELP CARDS -->
+  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+
+    <div class="glass p-6 fade border-l-4 border-blue-500">
+      <h3 class="text-xl font-semibold text-blue-900 mb-2">Login Guide</h3>
+      <ul class="list-disc ml-6 text-gray-800 space-y-1 text-sm sm:text-base">
+        <li>Select your login role (Admin/Security/Visitor)</li>
+        <li>Enter username & password</li>
+        <li>Click Login to continue</li>
+      </ul>
+    </div>
+
+    <div class="glass p-6 fade border-l-4 border-blue-500">
+      <h3 class="text-xl font-semibold text-blue-900 mb-2">Self Visitor Registration</h3>
+      <ul class="list-disc ml-6 text-gray-800 space-y-1 text-sm sm:text-base">
+        <li>Enter your personal details</li>
+        <li>Generate your QR automatically</li>
+        <li>QR stores visitor ID and purpose</li>
+      </ul>
+    </div>
+
+    <div class="glass p-6 fade border-l-4 border-blue-500">
+      <h3 class="text-xl font-semibold text-blue-900 mb-2">QR Entry System</h3>
+      <ul class="list-disc ml-6 text-gray-800 space-y-1 text-sm sm:text-base">
+        <li>1st scan → Entry marked</li>
+        <li>2nd scan → Exit marked</li>
+        <li>Dashboard updates in real-time</li>
+      </ul>
+    </div>
+
+    <div class="glass p-6 fade border-l-4 border-blue-500">
+      <h3 class="text-xl font-semibold text-blue-900 mb-2">View & Download Records</h3>
+      <ul class="list-disc ml-6 text-gray-800 space-y-1 text-sm sm:text-base">
+        <li>Open Security Dashboard</li>
+        <li>Click “View All Visitors”</li>
+        <li>Export full visitor log as PDF</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FAQ SECTION -->
+  <div class="max-w-4xl mx-auto glass p-6 sm:p-8 mt-14 fade">
+    <h3 class="text-2xl sm:text-3xl font-bold text-blue-900 mb-6 text-center">
+      Frequently Asked Questions
+    </h3>
+
+    <div class="space-y-4">
+
+      <div class="p-4 bg-blue-50 rounded-xl border glass">
+        <p class="font-semibold text-blue-900">Q1: How does the Visitor Management System work?</p>
+        <p class="text-gray-800 text-sm sm:text-base">
+          The visitor fills a form, generates a QR code, and security scans it to mark check-in & check-out timings.
+        </p>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded-xl border glass">
+        <p class="font-semibold text-blue-900">Q2: Who uses this system?</p>
+        <p class="text-gray-800 text-sm sm:text-base">
+          Visitors for registration, security guards for scanning, and admin for records & monitoring.
+        </p>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded-xl border glass">
+        <p class="font-semibold text-blue-900">Q3: How is visitor entry verified?</p>
+        <p class="text-gray-800 text-sm sm:text-base">
+          Security guards scan the visitor’s QR code — first scan marks entry and second scan marks exit.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-20 bg-[#234997] text-white py-6 text-center rounded-t-2xl shadow-lg">
+    <p class="text-sm sm:text-base">
+      © 2025 Visitor Management System | All Rights Reserved
+    </p>
+  </footer>
+
+</body>
+</html>
