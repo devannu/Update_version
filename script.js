@@ -43,27 +43,18 @@ window.onload = function () {
         document.getElementById("vdate").value = today;
     }
 };
-// For visitor name
-// -------------------- ONLY LETTERS FOR VISITOR NAME ---------------------
-document.getElementById("vname").addEventListener("input", function () {
-    // Remove numbers + special chars
-    this.value = this.value.replace(/[^a-zA-Z ]/g, "");
 
-    // Capitalize first letter
-    let v = this.value;
-    if (v.length > 0) {
-        this.value = v.charAt(0).toUpperCase() + v.slice(1);
-    }
+// ---------------- NAME VALIDATION ----------------
+document.getElementById("vname").addEventListener("input", function () {
+    this.value = this.value.replace(/[^a-zA-Z ]/g, "");
+    if (this.value.length > 0)
+        this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 });
 
-// -------------------- ONLY LETTERS FOR 'TO MEET' FIELD ---------------------
 document.getElementById("vmeet").addEventListener("input", function () {
     this.value = this.value.replace(/[^a-zA-Z ]/g, "");
-
-    let v = this.value;
-    if (v.length > 0) {
-        this.value = v.charAt(0).toUpperCase() + v.slice(1);
-    }
+    if (this.value.length > 0)
+        this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 });
 
 
@@ -72,8 +63,11 @@ function validatePhone(phone) {
     return /^[6-9]\d{9}$/.test(phone);
 }
 
-// ---------------- ADD VISITOR (QR GENERATE ONLY ONCE) ----------------
+
+
+// ---------------- ADD VISITOR (Pending + QR Generate) ----------------
 function handleAddVisitor() {
+
     let name = vname.value.trim();
     let phone = vphone.value.trim();
     let meet = vmeet.value.trim();
@@ -92,15 +86,15 @@ function handleAddVisitor() {
 
     let data = JSON.parse(localStorage.getItem("visitors")) || [];
 
-    // ---- CHECK IF VISITOR QR ALREADY GENERATED ----
+    // Prevent duplicate QR on same day
     let existing = data.find(v => v.phone === phone && v.date === date);
 
     if (existing && existing.qrDownloaded === true) {
-        alert("QR already generated for this visitor. Duplicate not allowed!");
+        alert("QR already generated for this visitor today!");
         return;
     }
 
-    // ---- CREATE NEW RECORD ----
+    // Create NEW visitor with PENDING status
     let record = {
         id: Date.now(),
         name,
@@ -114,41 +108,37 @@ function handleAddVisitor() {
         qrDownloaded: false
     };
 
-    // ---- GENERATE QR ----
+    // Generate QR
     new QRious({
         element: document.getElementById("qrCanvas"),
         size: 220,
         value: JSON.stringify(record)
     });
 
-    // ---- AUTO DOWNLOAD ONLY 1 TIME ----
+    // Auto Download QR
     setTimeout(() => {
         let link = document.createElement("a");
         link.download = `${name}_visitor_qr.png`;
         link.href = document.getElementById("qrCanvas").toDataURL("image/png");
         link.click();
 
-        record.qrDownloaded = true; // Mark downloaded
+        record.qrDownloaded = true;
 
-        // Save or update in localStorage
         if (existing) {
-            let index = data.indexOf(existing);
-            data[index] = record;
+            let idx = data.indexOf(existing);
+            data[idx] = record;
         } else {
             data.push(record);
         }
 
         localStorage.setItem("visitors", JSON.stringify(data));
-    }, 400);
+    }, 300);
 
     document.getElementById("sec-msg").innerHTML =
         "QR Generated & Downloaded Successfully!";
 }
 
-// ---------------- DOWNLOAD QR BUTTON ----------------
-function downloadQR() {
-    alert("QR already downloaded when created!");
-}
+
 
 // ---------------- TABLE RENDER ----------------
 function renderVisitorsTable(bodyId) {
@@ -161,7 +151,7 @@ function renderVisitorsTable(bodyId) {
         let color = "";
         if (v.status === "In") color = "style='color: green; font-weight: bold;'";
         else if (v.status === "Out") color = "style='color: red; font-weight: bold;'";
-        else color = "style='color: orange; font-weight: bold;'";
+        else color = "style='color: orange; font-weight: bold;'"; // Pending
 
         tbody.innerHTML += `
             <tr>
@@ -179,6 +169,8 @@ function renderVisitorsTable(bodyId) {
     });
 }
 
+
+
 // ---------------- QR SCANNER ----------------
 function startScanner() {
     const qr = new Html5Qrcode("reader");
@@ -195,37 +187,49 @@ function startScanner() {
     );
 }
 
-// ---------------- ENTRY / EXIT UPDATE ----------------
-function updateVisitorFromQR(visitor) {
+
+
+// ---------------- ENTRY / EXIT LOGIC (FIXED) ----------------
+function updateVisitorFromQR(scannedVisitor) {
+
     let data = JSON.parse(localStorage.getItem("visitors")) || [];
 
-    let index = data.findIndex(v => v.id == visitor.id);
+    let index = data.findIndex(v => v.id == scannedVisitor.id);
 
+    // ---------- 1️⃣ FIRST SCAN → ENTRY ----------
     if (index === -1) {
-        // FIRST SCAN = ENTRY
-        visitor.timeIn = new Date().toLocaleTimeString();
-        visitor.timeOut = "";
-        visitor.status = "In";
 
-        data.push(visitor);
-        alert(`Entry Marked!\nVisitor: ${visitor.name}`);
-    } 
-    
-    else {
-        // SECOND SCAN = EXIT
-        if (!data[index].timeOut) {
-            data[index].timeOut = new Date().toLocaleTimeString();
-            data[index].status = "Out";
-            alert(`Exit Marked!\nVisitor: ${data[index].name}`);
-        } else {
-            alert("Visitor already exited!");
-            return;
-        }
+        scannedVisitor.timeIn = new Date().toLocaleTimeString();
+        scannedVisitor.status = "In";
+
+        data.push(scannedVisitor);
+
+        alert(`Entry Marked!\nVisitor: ${scannedVisitor.name}`);
+    }
+
+    // ---------- 2️⃣ SECOND SCAN → EXIT ----------
+    else if (data[index].status === "In" && data[index].timeOut === "") {
+
+        data[index].timeOut = new Date().toLocaleTimeString();
+        data[index].status = "Out";
+
+        alert(`Exit Marked!\nVisitor: ${data[index].name}`);
+    }
+
+    // ---------- 3️⃣ THIRD SCAN → BLOCK ----------
+    else if (data[index].status === "Out") {
+        alert("⚠ Visitor already exited!\nScan blocked.");
+        return;
     }
 
     localStorage.setItem("visitors", JSON.stringify(data));
-    renderVisitorsTable("visitor-table-body");
+
+    if (document.getElementById("visitor-table-body")) {
+        renderVisitorsTable("visitor-table-body");
+    }
 }
+
+
 
 // ---------------- CLEAR VISITORS ----------------
 function clearVisitors() {
@@ -234,69 +238,3 @@ function clearVisitors() {
         renderVisitorsTable("visitor-table-body");
     }
 }
-
-// ---------------- EXCEL DOWNLOAD ----------------
-function downloadExcel() {
-    let data = JSON.parse(localStorage.getItem("visitors")) || [];
-
-    if (data.length === 0) {
-        alert("No records found!");
-        return;
-    }
-
-    let worksheet = XLSX.utils.json_to_sheet(data);
-    let workbook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Visitors");
-
-    XLSX.writeFile(workbook, "Visitor_Records.xlsx");
-}
-
-// PDF downlaod
-function downloadPDF() {
-    let data = JSON.parse(localStorage.getItem("visitors")) || [];
-
-    if (data.length === 0) {
-        alert("No records found!");
-        return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.text("Visitor Records Report", 14, 10);
-
-    const tableData = data.map((v, i) => [
-        i + 1,
-        v.name,
-        v.phone,
-        v.date,
-        v.timeIn || "-",
-        v.timeOut || "-",
-        v.status
-    ]);
-
-    doc.autoTable({
-        head: [["Serial No.", "Name", "Phone", "Date", "In Time", "Out Time", "Status"]],
-        body: tableData,
-        startY: 20,
-    });
-
-    doc.save("Visitor_Records.pdf");
-}
-// // Watch
-// function updateMarqueeClock() {
-//   const now = new Date();
-
-//   let hrs = now.getHours().toString().padStart(2, "0");
-//   let mins = now.getMinutes().toString().padStart(2, "0");
-//   let secs = now.getSeconds().toString().padStart(2, "0");
-
-//   let timeString = `⏱️  Current Time: ${hrs}:${mins}:${secs}   |   Visitor Management System`;
-
-//   document.getElementById("marqueeClock").innerText = timeString;
-// }
-
-// setInterval(updateMarqueeClock, 1000);
-// updateMarqueeClock();
-
